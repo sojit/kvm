@@ -3,33 +3,39 @@ Managing guests with virsh
 ps -ef | grep --color -i qemu-system-x86_64
 
 Snapshots:
- #file  cent_test1.qcow2
- # qemu-img info cent_test1.qcow2
+  #file  cent_test1.qcow2
+  # qemu-img info cent_test1.qcow2
 
-Internal snapshot:
- #virsh snapshot-create Arch-1
- #virsh snapshot-create-as Arch-1 --name "arch-snap1"
- #virsh snapshot-list Arch-1
- #qemu-img info  /var/lib/libvirt/images/generic.qcow2
- #qemu-img check  /var/lib/libvirt/images/generic.qcow2
+   *Internal snapshot:
+      #virsh snapshot-create Arch-1
+      #virsh snapshot-create-as Arch-1 --name "arch-snap1"
+      #virsh snapshot-list Arch-1
+      #qemu-img info  /var/lib/libvirt/images/generic.qcow2
+      #qemu-img check  /var/lib/libvirt/images/generic.qcow2
 
- Converting vmdisk format:
+
+
+
+
+
+
+ Converting vmdisk:
   #qemu-img convert -f qcow2 -O raw arch.qcow2 arch.img
   #qemu-img convert -f raw -O qcow2 arch.img arch1.qcow2
 
 Commands:
   #virsh nodeinfo
   #virsh domcapabilities | grep -i max
-  # virsh domcapabilities | grep -i diskdevice -A 5
+  #virsh domcapabilities | grep -i diskdevice -A 5
     
   #virsh dumpxml cent_test1
  
   #virsh net-dumpxml default
   #virsh net-info default
-   #virsh net-destroy default
-   #virsh net-start default
+  #virsh net-destroy default
+  #virsh net-start default
      
-   #virsh net-list  --all 
+  #virsh net-list  --all 
 
 NIC Bonding links:
 https://www.cloudibee.com/network-bonding-modes/
