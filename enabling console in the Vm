@@ -1,0 +1,19 @@
+#Enabling console on the VM os(cent os7)
+#Check the terminal status 
+
+[root@localhost test]# cat /etc/default/grub 
+GRUB_TERMINAL_OUTPUT="console"
+GRUB_CMDLINE_LINUX="crashkernel=auto rd.lvm.lv=centos/root rd.lvm.lv=centos/swap rhgb quiet amd_iommu=on kvm-amd.nested=1"
+
+#we need toadd the below lines inorder to enable the serial console in the VM os:
+
+[root@localhost test]# cat /etc/default/grub 
+GRUB_TERMINAL_OUTPUT="serial console"
+GRUB_CMDLINE_LINUX="crashkernel=auto rd.lvm.lv=centos/root rd.lvm.lv=centos/swap rhgb quiet amd_iommu=on kvm-amd.nested=1 console=tty0 console=ttyS0"
+
+#Now update the grub configuratiom.
+grub2-mkconfig -o /boot/grub2/grub.cfg
+
+#re-initialize the VM and can accessed through the console;
+virsh start <domain name> --console
+
