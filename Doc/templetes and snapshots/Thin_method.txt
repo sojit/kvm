@@ -1,8 +1,22 @@
 Deploying VM using thin provisioning method:
 
+I'm using the windows Vm to create templete using sysprep tool & thin clone method to deploy. We need to prepare the windows templete before proceeding further:
+**sysprep** is used to remove the system specific configuration from the VM.
+
+1: Tye regedit in to the "Run" to launch the registory editor.
+2: Select the "HKEY_LOCAL_MACHINE" and navigae to "SYSTEM"-->"SETUP".
+3: Right click on the "SETUP" "New"-->"String value" to add the string value.
+4: Then add the "value name": Unattendfile & "value data:" a:\sysprep.inf
+5: Run the sysprep.exe from the "c:\Windows\system\syprep", it will open a sysprep tool.
+6: Under "system cleanup action" option select "System out of box Experiance" OOBE. Also, "shutdown" under shutdown option.
+
+Now the templewe can proceed with thin method cloning
+=======================================================================================================================
+We will take the guest configuration backup for the windows VM:
 Step 1:
 #virsh dumpxml win10 > win10.xml
 
+Locate the disk image location of the VM
 Step 2:
 #virsh domblklist win10
 Target     Source
