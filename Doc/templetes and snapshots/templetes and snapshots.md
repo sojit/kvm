@@ -3,7 +3,7 @@
 **Templetes:**    
     A vm templeate is a pre-configured image of a OS that can be used to deploy quickly.
     
-   **virt-sysprep** is a command utility provided by *libguestfs-tools* & it is used to remove the system specific configuration from the VM. So that clones can be made from it.
+   **virt-sysprep** is a command utility provided by *libguestfs-tools* & it is used to remove the system specific configuration from the VM guest. So that clones can be made from it.
     
  The VM deployement using templete uses two methods.
    1. Thin Method
