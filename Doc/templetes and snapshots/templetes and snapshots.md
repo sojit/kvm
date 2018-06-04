@@ -11,7 +11,7 @@
 
 **Thin mechanism** deploy the VM by using the templete image as base in read only mode and links an adintional diskto store newly generated data.
 * It require less diskspace, however, the VM will not work without the base image or templete image.
-* Example: Here is various details of using thin clone mechanism [Thin_method] (https://github.com/sojit/kvm/blob/master/Doc/templetes%20and%20snapshots/Thin_method.txt).
+* Example: Here is various details of using thin clone mechanism [Thin_method](https://github.com/sojit/kvm/blob/master/Doc/templetes%20and%20snapshots/Thin_method.txt).
    
 **Clone mechanism** creates a complete new copy of the VMand it is fully independent of the base machine or VM templete.
 * It requires the same disk space as original.   
