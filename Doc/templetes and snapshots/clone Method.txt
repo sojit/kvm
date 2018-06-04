@@ -51,4 +51,4 @@ Rename the VM
  -     templete_cent_test0            shut off
 
 
-From the virt-manager we can create the independed clone VM's using the "templete_cent_test0" templete.
+From the virt-manager we can create the independent clone VM's using the "templete_cent_test0" templete.
