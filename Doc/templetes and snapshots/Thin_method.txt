@@ -1,7 +1,7 @@
 Deploying VM using thin provisioning method:
 
 I'm using the windows Vm to create templete using sysprep tool & thin clone method to deploy. We need to prepare the windows templete before proceeding further:
-**sysprep** is used to remove the system specific configuration from the VM.
+**sysprep** is used to remove the system specific configuration from the VM and in windows its the native tool.
 
 1: Tye regedit in to the "Run" to launch the registory editor.
 2: Select the "HKEY_LOCAL_MACHINE" and navigae to "SYSTEM"-->"SETUP".
