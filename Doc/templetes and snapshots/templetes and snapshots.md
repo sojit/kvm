@@ -14,4 +14,4 @@
 * Example: Here is various details of using thin clone mechanism #kvm/Doc/templetes and snapshots/Thin_method.txt.
    
 **Clone mechanism** creates a complete new copy of the VMand it is fully independent of the base machine or VM templete.
-* It requires same disk space as original.   
+* It requires the same disk space as original.   
