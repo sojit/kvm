@@ -1,0 +1,41 @@
+Deploying VM using thin provisioning method:
+
+Step 1:
+#virsh dumpxml win10 > win10.xml
+
+Step 2:
+#virsh domblklist win10
+Target     Source
+------------------------------------------------
+hda        /home/dtwo/KVM_Storage/win10.qcow2
+
+Step 3:
+#virsh undefine win10
+
+Step 4:
+# qemu-img create -b /home/dtwo/KVM_Storage/win10.qcow2 -f qcow2 /home/dtwo/templete_win10.qcow2
+Formatting '/home/dtwo/templete_win10.qcow2', fmt=qcow2 size=42949672960 backing_file=/home/dtwo/KVM_Storage/win10.qcow2 encryption=off cluster_size=65536 lazy_refcounts=off refcount_bits=16
+
+Step 5:
+#qemu-img info templete_win10.qcow2 
+image: /home/dtwo/KVM_Storage/templete_win10.qcow2
+file format: qcow2
+virtual size: 40G (42949672960 bytes)
+disk size: 196K
+cluster_size: 65536
+backing file: /home/dtwo/KVM_Storage/win10.qcow2
+Format specific information:
+    compat: 1.1
+    lazy refcounts: false
+    refcount bits: 16
+    corrupt: false
+    
+Step 5:
+#virt-clone --original-xml=win10.xml -f /home/dtwo/KVM_Storage/templete_win10.qcow2 -n win10-clone1 --preserve-data
+#
+#virsh list --all
+ Id    Name                           State
+----------------------------------------------------
+ -     cent_test0                     shut off
+ -     cent_test1                     shut off
+ -     win10-clone1                   shut off
