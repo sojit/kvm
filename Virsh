@@ -9,6 +9,7 @@ Snapshots:
    *Internal snapshot:
       #virsh snapshot-create Arch-1
       #virsh snapshot-create-as Arch-1 --name "arch-snap1" --description "First-snapshot" --atomic
+      virsh snapshot-list Arch-1 --parent
       #virsh snapshot-list Arch-1
       #qemu-img info  /var/lib/libvirt/images/generic.qcow2
       #qemu-img check  /var/lib/libvirt/images/generic.qcow2
