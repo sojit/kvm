@@ -1,0 +1,6 @@
+The External snapshot is all about overlay image and backing file. 
+Where the backing_file turns to readonly and start writing on the overlay image.
+
+Backing_file: is the original disk.
+Overlay_image: The new snaphot in writable state.
+
