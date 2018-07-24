@@ -28,6 +28,6 @@ A virtual machine snapshot is a file-based representation of a system state at a
 The libvirt support live snapshot and the snapshorts are mainly two types:
 1. Internal Snapshot
 2. External Snapshot: The External snapshot is all about overlay image and backing file which means the exsisted disk turns to readonly disk and the data starts writing on the newly created shapshot.
-     **Backing_file:** It is the original disk. 
-     **Overlay_image:** The new snaphot in writable state.
+**Backing_file:** It is the original disk. 
+**Overlay_image:** The new snaphot in writable state.
 
