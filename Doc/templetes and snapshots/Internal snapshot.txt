@@ -1,0 +1,58 @@
+*Internal snapshot:->
+
+Command to create the snapshot on the vm "Arch-1".
+#virsh snapshot-create Arch-1
+
+Command to create internal snapshot with custom name and description.
+#virsh snapshot-create-as Arch-1 --name "arch-snap1" --description "First-snapshot" --atomic 
+ (--atomic will garuntee that the snaphot either will suceed or fails with no chnages.)
+
+#virsh snapshot-list Arch-1 --parent
+
+#virsh snapshot-list Arch-1 --tree
+
+#qemu-img info <Disk image>
+-----------------------------------------------------------------------------------
+[root@localhost test]# qemu-img info /var/lib/libvirt/images/generic.qcow2
+image: /var/lib/libvirt/images/generic.qcow2
+file format: qcow2
+virtual size: 8.0G (8589934592 bytes)
+disk size: 1.8M
+cluster_size: 65536
+Snapshot list:
+ID        TAG                 VM SIZE                DATE       VM CLOCK
+1         arch-snap-1               0 2018-07-23 05:02:01   00:00:00.000
+2         1532336599                0 2018-07-23 05:03:19   00:00:00.000
+3         arch-snap-3               0 2018-07-23 05:28:07   00:00:00.000
+Format specific information:
+    compat: 1.1
+    lazy refcounts: true
+--------------------------------------------------------------------------------------
+
+#qemu-img check <Disk image>
+---------------------------------------------------------------------------------------
+[root@localhost test]# qemu-img check /var/lib/libvirt/images/generic.qcow2
+No errors were found on the image.
+131072/131072 = 100.00% allocated, 0.00% fragmented, 0.00% compressed clusters
+Image end offset: 8591835136
+----------------------------------------------------------------------------------------
+
+Reverting to internal snapshots:
+
+#virsh snapshot-revert Arch-1 --snapshotname "1532336599"
+#virsh snapshot-revert Arch-1 --snapshotname "1532336599" --running(if the vm is shutdown then need to use "--running")
+
+Deleting the internal snapshot:
+------------------------------------------------------------------------------------------
+[root@localhost test]# virsh snapshot-delete Arch-1 1532336599
+Domain snapshot 1532336599 deleted
+
+[root@localhost test]# virsh snapshot-list Arch-1 
+ Name                 Creation Time             State
+------------------------------------------------------------
+ arch-snap-1          2018-07-23 05:02:01 -0400 shutoff
+ arch-snap-3          2018-07-23 05:28:07 -0400 shutoff
+--------------------------------------------------------------------------------------------
+
+
+
