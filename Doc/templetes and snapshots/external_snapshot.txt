@@ -4,3 +4,118 @@ Where the backing_file turns to readonly and start writing on the overlay image.
 Backing_file: is the original disk.
 Overlay_image: The new snaphot in writable state.
 
+Check the disk location for the VM.
+#virsh domblklist Arch-1
+#[root@localhost ~]# virsh domblklist Arch-1
+Target     Source
+------------------------------------------------
+hda        /var/lib/libvirt/images/generic.snap1
+hdb        /root/Downloads/archlinux-2018.03.01-x86_64.iso
+
+#virsh domblklist Arch-1 --details
+
+Command to create the external snapshot. 
+#virsh snapshot-create-as Arch-1  snap1 "First snap" --disk-only --atomic
+
+
+#[root@localhost ~]# virsh snapshot-info Arch-1 snap1
+Name:           snap1
+Domain:         Arch-1
+Current:        no
+State:          shutoff
+Location:       external
+Parent:         -
+Children:       1
+Descendants:    1
+Metadata:       yes
+
+I tried to use the "diskspec" as vda its looks like it not supported. Therefore, I have to use hda in place of it.
+-------------------------------------------------------------------------------------------------------------------------------
+#[root@localhost ~]# virsh snapshot-create-as Arch-1  snap3 "third snap" --disk-only --diskspec vda,snapshot=external,file=/root/test/Arch-1.snap3 --atomic
+error: unsupported configuration: no disk named 'vda'
+--------------------------------------------------------------------------------------------------------------------------------
+
+#virsh snapshot-create-as Arch-1  snap2 "Second snap" --disk-only --diskspec hda,snapshot=external,file=/root/test/Arch-1.snap2 --atomic
+
+#[root@localhost ~]# virsh domblklist Arch-1 
+Target     Source
+------------------------------------------------
+hda        /root/test/Arch-1.snap2
+hdb        /root/Downloads/archlinux-2018.03.01-x86_64.iso
+
+#[root@localhost ~]# virsh snapshot-info Arch-1 snap2
+Name:           snap2
+Domain:         Arch-1
+Current:        yes
+State:          shutoff
+Location:       external
+Parent:         snap1
+Children:       0
+Descendants:    0
+Metadata:       yes
+
+Quiesce: It is a filesystem freez mechanism.
+#[root@localhost ~]# virsh snapshot-create-as Arch-1  snap3 "third snap" --disk-only --quiesce
+Domain snapshot snap3 created
+
+#[root@localhost ~]# virsh domblklist Arch-1 
+Target     Source
+------------------------------------------------
+hda        /root/test/Arch-1.snap3
+hdb        /root/Downloads/archlinux-2018.03.01-x86_64.iso
+
+We can list out the baking_file details with the below command.
+
+#[root@localhost ~]# qemu-img info --backing-chain /root/test/Arch-1.snap3 | grep backing
+backing file: /root/test/Arch-1.snap2
+backing file format: qcow2
+backing file: /var/lib/libvirt/images/generic.snap1
+backing file format: qcow2
+backing file: /var/lib/libvirt/images/generic.qcow2
+backing file format: qcow2
+
+#[root@localhost ~]# qemu-img info --backing-chain /root/test/Arch-1.snap3 
+image: /root/test/Arch-1.snap3
+file format: qcow2
+virtual size: 8.0G (8589934592 bytes)
+disk size: 196K
+cluster_size: 65536
+backing file: /root/test/Arch-1.snap2
+backing file format: qcow2
+Format specific information:
+    compat: 1.1
+    lazy refcounts: false
+
+image: /root/test/Arch-1.snap2
+file format: qcow2
+virtual size: 8.0G (8589934592 bytes)
+disk size: 196K
+cluster_size: 65536
+backing file: /var/lib/libvirt/images/generic.snap1
+backing file format: qcow2
+Format specific information:
+    compat: 1.1
+    lazy refcounts: false
+
+image: /var/lib/libvirt/images/generic.snap1
+file format: qcow2
+virtual size: 8.0G (8589934592 bytes)
+disk size: 196K
+cluster_size: 65536
+backing file: /var/lib/libvirt/images/generic.qcow2
+backing file format: qcow2
+Format specific information:
+    compat: 1.1
+    lazy refcounts: false
+
+image: /var/lib/libvirt/images/generic.qcow2
+file format: qcow2
+virtual size: 8.0G (8589934592 bytes)
+disk size: 1.8M
+cluster_size: 65536
+Format specific information:
+    compat: 1.1
+    lazy refcounts: true
+[root@localhost ~]# 
+
+
