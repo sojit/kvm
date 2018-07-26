@@ -117,5 +117,33 @@ Format specific information:
     compat: 1.1
     lazy refcounts: true
 [root@localhost ~]# 
+---------------------------------------------------------------------------------------------------------
 
+The libvirt does not support snapshot revert in external snapshot.
+
+#[root@localhost ~]# virsh snapshot-revert Arch-1 --snapshotname "snap2"
+error: unsupported configuration: revert to external snapshot not supported yet
+
+#[root@localhost ~]# virsh snapshot-list Arch-1 
+ Name                 Creation Time             State
+------------------------------------------------------------
+ snap1                2018-07-24 03:18:48 -0400 shutoff
+ snap2                2018-07-25 02:50:45 -0400 shutoff
+ snap3                2018-07-25 03:01:23 -0400 shutoff
+
+Hence, we need to perform this taks by modifying the DomXml file or by using virt-xml command.
+
+[root@localhost ~]# virsh snapshot-dumpxml Arch-1 --snapshotname snap3 | grep 'source file' 
+      <source file='/root/test/Arch-1.snap3'/>
+        <source file='/root/test/Arch-1.snap2'/>
+        <source file='/root/Downloads/archlinux-2018.03.01-x86_64.iso'/>
+[root@localhost ~]# virsh snapshot-dumpxml Arch-1 --snapshotname snap2 | grep 'source file' 
+      <source file='/root/test/Arch-1.snap2'/>
+        <source file='/var/lib/libvirt/images/generic.snap1'/>
+        <source file='/root/Downloads/archlinux-2018.03.01-x86_64.iso'/>
+[root@localhost ~]# virsh snapshot-dumpxml Arch-1 --snapshotname snap1 | grep 'source file' 
+      <source file='/var/lib/libvirt/images/generic.snap1'/>
+        <source file='/var/lib/libvirt/images/generic.qcow2'/>
+        <source file='/root/Downloads/archlinux-2018.03.01-x86_64.iso'/>
+[root@localhost ~]# 
 
