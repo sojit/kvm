@@ -42,3 +42,6 @@ NIC Bonding links:
 https://www.cloudibee.com/network-bonding-modes/
 VLAN Configuration:
 https://www.cloudibee.com/linux-vlan-configuration/
+
+SR-IOV:
+https://www.intel.com/content/dam/www/public/us/en/documents/technology-briefs/xl710-sr-iov-config-guide-gbe-linux-brief.pdf
