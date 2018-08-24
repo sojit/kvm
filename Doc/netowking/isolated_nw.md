@@ -1,4 +1,4 @@
-## Step1:
+### Step1:
 
 ```
 #cat ioslated.xml
@@ -6,7 +6,7 @@
 </network>
 ```
 
-## Step2:
+### Step2:
 ```
 #virsh net-define ioslated.xml 
 Network isolated defined from ioslated.xml
@@ -29,7 +29,7 @@ Vrifying the action performed on step2:
  isolated             inactive   no            yes
 ```
 
-## Step3:
+### Step3:
 ```
 #virsh net-start isolated 
 Network isolated started
