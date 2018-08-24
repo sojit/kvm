@@ -1,13 +1,13 @@
-
-
 ## Step1:
 
+```
 #cat ioslated.xml
 <network> <name>isolated</name>
 </network>
+```
 
 ## Step2:
-
+```
 #virsh net-define ioslated.xml 
 Network isolated defined from ioslated.xml
 
@@ -27,8 +27,10 @@ Vrifying the action performed on step2:
 ----------------------------------------------------------
  default              active     yes           yes
  isolated             inactive   no            yes
+```
 
 ## Step3:
+```
 #virsh net-start isolated 
 Network isolated started
 
@@ -43,3 +45,4 @@ bridge name	bridge id		STP enabled	interfaces
 br1		8000.525400bf745b	no		eth1
 virbr0		8000.525400f1aacb	yes		virbr0-nic
 virbr1		8000.5254009b7abe	yes		virbr1-nic
+```
